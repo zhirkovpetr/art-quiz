@@ -1,0 +1,40 @@
+.footer{
+  background-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  height: 70px;
+  justify-content: space-around;
+  margin: 50px 0 10px 0;
+}
+
+
+.footer_rs{
+  display: block;
+  height: 60px;
+  width: 166px;
+  background-image: url(./assets/svg/rs_school_js.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.footer_gh{
+  display: block;
+  min-width: 62px;
+  min-height: 24px;
+  background-image: url(./assets/svg/github.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.reserved_footer{
+  align-items: center;
+  display: flex;
+  font-size: 24px;
+  line-height: 27px;
+  text-decoration: none;
+  margin-right: 50px;
+  color: #660033;
+  font-family: Arial, serif;
+}
