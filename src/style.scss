@@ -5,30 +5,33 @@
   height: 70px;
   justify-content: space-around;
   margin: 50px 0 10px 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 
-
-.footer_rs{
+.footer_rs {
   display: block;
   height: 60px;
   width: 166px;
-  background-image: url(./assets/svg/rs_school_js.svg);
+  background-image: url(data/svg/rs_school_js.svg);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.footer_gh{
+.footer_gh {
   display: block;
   min-width: 62px;
   min-height: 24px;
-  background-image: url(./assets/svg/github.svg);
+  background-image: url(data/svg/github.svg);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.reserved_footer{
+.reserved_footer {
   align-items: center;
   display: flex;
   font-size: 24px;

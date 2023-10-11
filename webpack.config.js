@@ -1,14 +1,22 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  entry: './src/index.js',
+const devServer = (isDev) => !isDev ? {} : {
+  devServer: {
+    open: true,
+    hot: true,
+    port: 8080,
+  }
+};
+
+module.exports = ({ develop }) => ({
+  mode: develop ? 'development' : 'production',
+  entry: path.resolve(__dirname, './src/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
     assetModuleFilename: 'assets/[file]/[name][ext]'
   },
-  mode: 'development',
   module: {
     rules: [
       {
@@ -47,10 +55,7 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
-    })
+    }),
   ],
-  devServer: {
-    compress: true,
-    port: 3000,
-  }
-};
+  ...devServer(develop),
+});
