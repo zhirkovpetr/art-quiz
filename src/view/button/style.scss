@@ -1,0 +1,39 @@
+.button {
+  width: 150px;
+  height: 50px;
+  background: #660033;
+  border: none;
+  display: flex;
+  font-family: 'Montserrat', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  padding: 0;
+  box-shadow: 5px 5px 35px rgba(0, 0, 0, 0.78);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover {
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.button-settings-buttonElement {
+  margin: auto;
+}
+
+.button-settings-img {
+  width: 35px;
+  height: 35px;
+  margin: auto 5px;
+}
+
+.button-settings-txt {
+  margin: 14px 7px 14px 0;
+}

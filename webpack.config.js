@@ -38,7 +38,7 @@ module.exports = ({ develop }) => ({
             loader: "sass-resources-loader",
             options: {
               resources: [
-                'src/styles/vars.scss',
+                'src/styles/variables.scss',
               ]
             }
           }
