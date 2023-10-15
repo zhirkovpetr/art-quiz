@@ -1,28 +1,29 @@
-import home from './features/home/index';
-import settings from './features/settings/index';
 import "./style.scss"
-import Button from "./components/Button/Button";
-import * as button from "./components/view/button";
-import buttonSettingsHome from "./data/png/buttonSettingsHome.png"
-const SETTINGS= 'settings'
 
+import home from './pages/home/home';
+import settings from './pages/settings/settings';
+import categories from './pages/settings/settings';
 
 const root = document.querySelector('#root');
 root.append(home)
 
 function openPage(page) {
-  while (root.firstChild){
+  while (root.firstChild) {
     root.removeChild(root.firstChild)
   }
-  if(page === 'home'){
-    root.append(home)
-  } else {
-    root.append(settings)
+  switch (page) {
+    case 'home':
+      root.append(home)
+      break;
+    case 'settings':
+      root.append(settings)
+      break;
+    case 'categories':
+      root.append(categories)
+      break;
+    default:
+      root.append(home)
   }
 }
-
-let buttonOnSetting = new Button(SETTINGS, buttonSettingsHome, button);
-buttonOnSetting.renderButton();
-buttonOnSetting.clickButton(SETTINGS)
 
 export default openPage

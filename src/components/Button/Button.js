@@ -15,9 +15,10 @@ export default class Button {
   }
 
   clickButton() {
+    const text = this.text
     const button = this.query.default
     button.addEventListener("click", function () {
-      redirect(this.text)
+      redirect(text)
     });
   }
 }
