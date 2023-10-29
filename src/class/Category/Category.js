@@ -1,63 +1,83 @@
+import Round from "../Round/Round"
+
+let arrCategory = [
+  'Portrait', 'Landscape', 'Still Life', 'Graphic', 'Antique', 'Avant-Garde', 'Renaissance', 'Surrealism', 'Kitsch',
+  'Minimalism', 'Avangard', 'Industrial'
+]
+
 class Category {
-  constructor(text, query) {
-    this.text = text;
-    this.query = query;
+  constructor(data, categoryType) {
+    this.target = document.querySelector('#root');
+    this.rounds = data;
+    this.categoryType = categoryType;
+    this.covers = this.setCovers();
+    this.screen = `
+		<div class="container">
+		  <div class="logo logoMain logoCategory"></div>
+		  <h2 class="settingsText settingsMenu_text text_settings">Categories</h2>
+          <div class="buttons_wrapper buttons_wrapper_categories">
+              <button class="buttons buttons_home">
+                 <img src="../../data/svg/home.svg" alt="home_btn">
+                 <span>home</span>
+              </button>
+              <button class="buttons buttons_home">
+                 <img src="../../data/png/score.png" alt="score_btn">
+                 <span>score</span>
+              </button>
+          </div>
+          <div class="categories categories_main">
+		      ${this.covers.map((cover, index) => `
+				<div class="category_item item_main item" id="${index}">
+					<div class="item_header">
+						<div class="item_counter item_title">
+						        <div class="item_wrapper">${arrCategory[index]}</div>
+                        </div>						
+					</div>
+					<div class="pictures">
+						<img alt="picture-category" class="item_picture item_picture_main" src="../../data/img/${cover}.jpg" id="${index}"/>
+						
+                    </div>									
+				</div>
+				`).join('')}
+		</div>`;
+
+    this.target.innerHTML = this.screen;
+    this.target.querySelector('.container').classList.add('animation');
+
+    this.cards = this.target.querySelectorAll('.item');
+
+    this.cards.forEach((item, index) => {
+      if (localStorage.getItem(`${this.categoryType}${index}`) === 'true') {
+        item.classList.remove('stop_item');
+        item.classList.add('play-item');
+      }
+    });
+
+    this.round_container = this.target.querySelector('.container');
+
+    document.addEventListener('click', this.chooseRound.bind(this));
+
   }
 
-  renderCategory(divClass) {
-    const html = document.createElement('div');
-    html.classList.add(divClass + '-quiz');
-    document.querySelector('.mainMenu').append(html);
-
-    const innerHtml = document.createElement('div');
-    innerHtml.classList.add('mainMenu_img', 'mainMenu_' + divClass);
-    html.append(innerHtml);
-
-    const h2 = document.createElement('h2');
-    h2.classList.add('text', 'mainMenu_text');
-    h2.textContent = this.text.split(" ")[0] + ' '
-    html.append(h2);
-
-
-    const span= document.createElement('span');
-    span.classList.add('text_bold');
-    span.textContent= this.text.split(" ")[1]
-    h2.append(span)
-
+  setCovers() {
+    let data = this.rounds.flat();
+    let covers = [];
+    for (let i = 0; covers.length < 12; i++) {
+      let num = Math.round(Math.random() * data.length);
+      if (!covers.includes(num)) {
+        covers.push(num);
+      }
+    }
+    return covers;
   }
 
-  async clickCategory(divClass) {
-    const text = document.querySelector('.' + divClass + '-quiz');
-    try {
-      text.addEventListener("click", function () {
-        console.log(divClass);
-      });
-    } catch (error) {
-      alert(error);
+  chooseRound(event) {
+    if (event.target.tagName === 'IMG') {
+      let id = event.target.id;
+      let questions = this.rounds[id];
+      new Round(this.target, this.rounds, questions, this.categoryType, id);
     }
   }
 }
 
-export class ArtistsQuiz extends Category {
-  async renderArtists() {
-    const divClass = 'artist';
-    this.renderCategory(divClass);
-    const testMe = async () => {
-      await this.clickCategory(divClass);
-    };
-    await testMe();
-  };
-}
-
-export class PicturesQuiz extends Category {
-  async renderPictures() {
-    const divClass = 'pictures';
-    this.renderCategory(divClass);
-    const testMe = async () => {
-      await this.clickCategory(divClass);
-    };
-    await testMe();
-  };
-}
-
-export default Category
+export default Category;
