@@ -1,10 +1,8 @@
 import Round from "../Round/Round"
-
-let arrCategory = [
-  'Portrait', 'Landscape', 'Still Life', 'Graphic', 'Antique', 'Avant-Garde', 'Renaissance', 'Surrealism', 'Kitsch',
+let arrCategory= [
+  'Portrait', 'Landscape', 'Still Life', 'Graphic', 'Antique', 'Avant-Garde', 'Renaissance', 'Surrealism' , 'Kitsch',
   'Minimalism', 'Avangard', 'Industrial'
 ]
-
 class Category {
   constructor(data, categoryType) {
     this.target = document.querySelector('#root');
@@ -17,11 +15,11 @@ class Category {
 		  <h2 class="settingsText settingsMenu_text text_settings">Categories</h2>
           <div class="buttons_wrapper buttons_wrapper_categories">
               <button class="buttons buttons_home">
-                 <img src="../../data/svg/home.svg" alt="home_btn">
+                 <img src="./data/svg/home.svg" alt="home_btn">
                  <span>home</span>
               </button>
               <button class="buttons buttons_home">
-                 <img src="../../data/png/score.png" alt="score_btn">
+                 <img src="./data/png/score.png" alt="score_btn">
                  <span>score</span>
               </button>
           </div>
@@ -34,31 +32,33 @@ class Category {
                         </div>						
 					</div>
 					<div class="pictures">
-						<img alt="picture-category" class="item_picture item_picture_main" src="../../data/img/${cover}.jpg" id="${index}"/>
-						
+						<img alt="picture-category" class="item_picture item_picture_main" src="./data/img/${cover}.jpg" id="${index}"/>						
                     </div>									
 				</div>
 				`).join('')}
 		</div>`;
-
+    /*<div class="item_total">
+                             <div class="tex">score</div>
+                     </div>
+     <div className="info info_results">
+         ${localStorage.getItem(`score${this.categoryType}${index}`) ? `
+                         <div class="score-container">
+                             <p class="card-score">${localStorage.getItem(`score${this.categoryType}${index}`)}</p>
+                         </div>`
+         : ''}
+     </div>*/
     this.target.innerHTML = this.screen;
     this.target.querySelector('.container').classList.add('animation');
-
     this.cards = this.target.querySelectorAll('.item');
-
     this.cards.forEach((item, index) => {
       if (localStorage.getItem(`${this.categoryType}${index}`) === 'true') {
         item.classList.remove('stop_item');
         item.classList.add('play-item');
       }
     });
-
     this.round_container = this.target.querySelector('.container');
-
     document.addEventListener('click', this.chooseRound.bind(this));
-
   }
-
   setCovers() {
     let data = this.rounds.flat();
     let covers = [];
@@ -70,7 +70,6 @@ class Category {
     }
     return covers;
   }
-
   chooseRound(event) {
     if (event.target.tagName === 'IMG') {
       let id = event.target.id;
@@ -79,5 +78,4 @@ class Category {
     }
   }
 }
-
 export default Category;
