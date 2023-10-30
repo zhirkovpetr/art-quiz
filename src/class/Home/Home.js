@@ -1,5 +1,7 @@
+import Settings from "../Settings/Settings"
 import Category from "../Category/Category"
 import home from "../../view/home/home.html"
+
 
 class Home {
   constructor() {
@@ -7,8 +9,12 @@ class Home {
     this.screen = home;
     this.target.innerHTML = this.screen;
     this.target.querySelector('.container').classList.add('animation');
+
     this.categories = document.querySelectorAll('.categoryQuiz');
     this.categories.forEach(category => category.addEventListener('click', this.choseCategory.bind(this)));
+
+    this.buttons_settings = this.target.querySelector('.buttons_settings').addEventListener('click', this.goSettings);
+
   }
 
   async choseCategory(event) {
@@ -32,12 +38,16 @@ class Home {
       let copyArr = [...artsData];
       artsQuestions.push(copyArr.slice(i, i + 10));
     }
+
     new Category(artsQuestions, event.target.id);
   }
 
   async fetchData(url) {
     const response = await fetch(url);
     return await response.json();
+  }
+  goSettings() {
+    return new Settings();
   }
 }
 

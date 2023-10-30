@@ -1,5 +1,8 @@
 import shuffleArray from "../../settings/shuffleArray";
 import Modal from "../Modal/Modal";
+import Home from "../Home/Home";
+import Category from "../Category/Category";
+
 class Question {
   constructor(target, categoryType, categoryData, roundData, questionNum, score, roundId) {
     this.target = target;
@@ -19,7 +22,7 @@ class Question {
                          <span>home</span>
                     </button>
                     <h2 class="textQuest text_artists">"${this.roundData[this.questionNum].question}"</h2>
-                    ${localStorage.getItem('timer') === 'true' ? `<p class="question_timer">${localStorage.getItem('seconds')}</p>` : ''}
+                    ${localStorage.getItem('checkTimer') === 'true' ? `<p class="question_timer">${localStorage.getItem('timerChecker')}</p>` : ''}
                     <button class="buttons buttons_category buttons_category_width">
                           <img src="./data/svg/category.svg" alt="home_btn">
                           <span>categories</span>
@@ -39,7 +42,7 @@ class Question {
                           <span>home</span>
                    </button>
                    <h2 class="textQuest text_artists">"${this.roundData[this.questionNum].question}"</h2>
-                   ${localStorage.getItem('timer') === 'true' ? `<p class="question_timer">${localStorage.getItem('seconds')}</p>` : ''}
+                   ${localStorage.getItem('checkTimer') === 'true' ? `<p class="question_timer">${localStorage.getItem('timerChecker')}</p>` : ''}
                    <button class="buttons buttons_category buttons_category_width">
                            <img src="./data/svg/category.svg" alt="home_btn">
                            <span>categories</span>
@@ -70,14 +73,26 @@ class Question {
     if (this.timer) {
       this.tiktac(this.timer.textContent)
     };
+    this.buttons_home = this.target.querySelector('.buttons_home').addEventListener('click', this.goHome);
+    this.buttons_category = this.target.querySelector('.buttons_category').addEventListener('click', this.goCategory);
+  }
+
+  goHome() {
+    return new Home();
+  }
+
+  goCategory() {
+    return new Category();
   }
 
   chooseAnswer(event) {
     clearTimeout(this.timerGlobal);
+
     let id = Number(event.target.id.charAt(1));
     let isRight = id === this.allVariants.indexOf(this.rightAnswer);
     let nextQuestionNum = this.questionNum;
     let score = this.score;
+
     if (isRight) {
       score += 1;
     };
@@ -87,14 +102,19 @@ class Question {
       new Modal(this.target, this.categoryType, this.categoryData, this.roundData, this.roundData[this.questionNum], nextQuestionNum, isRight, score, this.roundId);
     }
   }
+
   tiktac(num) {
     let prop = Number(num);
     console.log(prop);
     this.timer.innerHTML = prop;
+
     if (prop >= 0) {
       prop -= 1;
     }
+
+
     let nextQuestionNum = this.questionNum;
+
     let timerId = setTimeout(this.tiktac.bind(this, [prop]), 1000);
 
     this.timerGlobal = timerId;
@@ -104,19 +124,13 @@ class Question {
       nextQuestionNum += 1;
       new Modal(this.target, this.categoryType, this.categoryData, this.roundData, this.roundData[this.questionNum], nextQuestionNum, false, this.score);
     }
+
     if (prop >= 0) {
       timerId;
     }
+
   }
-  setHeader() {
-    if (!this.headerIteration) {
-      this.headerIteration = 0;
-    }
-    this.headerIteration += 1;
-    if (this.headerIteration < 2) {
-      this.header = new Question_header(this.categoryType, this.categoryData, this.timerGlobal);
-    }
-  }
+
   setVariants(type) {
     let variants = [this.rightAnswer];
 
@@ -140,4 +154,5 @@ class Question {
     return shuffleArray(variants);
   }
 }
+
 export default Question
