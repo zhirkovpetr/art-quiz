@@ -29,39 +29,37 @@ class Category {
 				<div class="category_item item_main item" id="${index}">
 					<div class="item_header">
 						<div class="item_counter item_title">
-						        <div class="item_wrapper">${arrCategory[index]}</div>
+						        <div class="item_wrapper">${arrCategory[index]} ${localStorage.getItem(`score${this.categoryType}${index}`) ? `
+							          <span class="item_wrapper_score">
+								          ${localStorage.getItem(`score${this.categoryType}${index}`)} / 10
+				                      </span>`
+      : ''}
+						        </div>
                         </div>						
 					</div>
 					<div class="pictures">
-						<img alt="picture-category" class="item_picture item_picture_main" src="./data/img/${cover}.jpg" id="${index}"/>						
-                    </div>									
+						<img alt="picture-category" class="${localStorage.getItem(`score${this.categoryType}${index}`) ? 'item_picture item_picture_main' : 'item_picture item_picture_main notPlay_item'}"
+                             src="./data/img/${cover}.jpg" id="${index}"/>		
+                           
+            </div>									
 				</div>
 				`).join('')}
 		</div>`;
-    /*<div class="item_total">
-                             <div class="tex">score</div>
-                     </div>
-     <div className="info info_results">
-         ${localStorage.getItem(`score${this.categoryType}${index}`) ? `
-                         <div class="score-container">
-                             <p class="card-score">${localStorage.getItem(`score${this.categoryType}${index}`)}</p>
-                         </div>`
-         : ''}
-     </div>*/
+
     this.target.innerHTML = this.screen;
     this.target.querySelector('.container').classList.add('animation');
+
     this.cards = this.target.querySelectorAll('.item');
+
     this.cards.forEach((item, index) => {
-      if (localStorage.getItem(`${this.categoryType}${index}`) === 'true') {
-        item.classList.remove('stop_item');
-        item.classList.add('play-item');
-      }
+
     });
 
-    this.round_container = this.target.querySelector('.container');
-    document.addEventListener('click', this.chooseRound.bind(this));
-    this.buttons_home = this.target.querySelector('.buttons_home').addEventListener('click', this.goHome);
+    this.target.querySelector('.container').addEventListener('click', this.chooseRound.bind(this));
+
+    this.target.querySelector('.buttons_home').addEventListener('click', this.goHome);
   }
+
   setCovers() {
     let data = this.rounds.flat();
     let covers = [];
@@ -84,5 +82,4 @@ class Category {
     return new Home();
   }
 }
-
 export default Category;

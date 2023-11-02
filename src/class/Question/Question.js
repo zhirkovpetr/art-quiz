@@ -2,7 +2,6 @@ import shuffleArray from "../../settings/shuffleArray";
 import Modal from "../Modal/Modal";
 import Home from "../Home/Home";
 import Category from "../Category/Category";
-
 class Question {
   constructor(target, categoryType, categoryData, roundData, questionNum, score, roundId) {
     this.target = target;
@@ -49,7 +48,7 @@ class Question {
                    </button>
              </div>
              <div class="artists_picture">
-                  <img class="question-image" src="./data/img/${this.roundData[this.questionNum].imageNum}.jpg" alt="question-image"/>
+                  <img class="question-image" src="./data/img/${this.roundData[this.questionNum].imageNum}.jpg" alt="artists-picture"/>
              </div>
              <div class="answer">
              <ul class="answers_wrapper variants_container">${this.allVariants.map((variant, index) => `
@@ -59,8 +58,9 @@ class Question {
                </div>`;
     this.target.innerHTML = this.screen;
     this.target.querySelector('.container_question').classList.add('animation');
+
     this.timer = this.target.querySelector('.question_timer');
-    if (this.thimer) {
+    if (this.timer) {
       this.timer.classList.add('shake');
     }
     this.variants_container = this.target.querySelector('.variants_container');
@@ -72,26 +72,30 @@ class Question {
       this.tiktac(this.timer.textContent)
     }
 
-    this.buttons_home_width = this.target.querySelector('.buttons_home_width').addEventListener('click', this.goHome);
-    this.buttons_category = this.target.querySelector('.buttons_category_width').addEventListener('click', this.goCategory)
+    this.target.querySelector('.buttons_home_width').addEventListener('click', this.goHome);
+    this.target.querySelector('.buttons_category_width').addEventListener('click', this.goCategory)
   }
 
   goHome() {
     return new Home();
   }
+
   goCategory() {
-    return new Category();
+    new Category(this.categoryData, this.categoryType);
   }
+
   chooseAnswer(event) {
     clearTimeout(this.timerGlobal);
     let id = Number(event.target.id.charAt(1));
     let isRight = id === this.allVariants.indexOf(this.rightAnswer);
     let nextQuestionNum = this.questionNum;
     let score = this.score;
+
     if (isRight) {
       score += 1;
     }
     nextQuestionNum += 1;
+
     if (this.questionNum < 10) {
       new Modal(this.target, this.categoryType, this.categoryData, this.roundData, this.roundData[this.questionNum], nextQuestionNum, isRight, score, this.roundId);
     }

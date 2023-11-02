@@ -436,6 +436,15 @@ input[type='range']::-webkit-slider-thumb {
   border-top: 1px solid dimgray;
 }
 /*Category*/
+
+.notPlay_item{
+  filter: grayscale(1);
+}
+
+.item_wrapper_score{
+  float: right;
+}
+
 .logoCategory {
   background-color: #cbbba0;
   margin: 0;

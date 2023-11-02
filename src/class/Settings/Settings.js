@@ -1,5 +1,4 @@
 import Home from "../Home/Home";
-
 class Settings {
   constructor() {
     this.target = document.querySelector('#root');
@@ -66,8 +65,8 @@ class Settings {
       this.timerChecker.disabled = true;
     }
 
-    this.button_return = this.target.querySelector('.button_return').addEventListener('click', this.goHome);
-    this.button_save = this.target.querySelector('.button_save').addEventListener('click', this.goHome)
+    this.target.querySelector('.button_return').addEventListener('click', this.goHome);
+    this.target.querySelector('.button_save').addEventListener('click', this.goHome)
 
 
     this.checkVolume.addEventListener('input', this.turnNotifyValue.bind(this));
@@ -78,7 +77,6 @@ class Settings {
   goHome() {
     return new Home();
   }
-
   turnNotifyValue() {
     if (this.valumeChecker.disabled) {
       this.valumeChecker.disabled = false;
