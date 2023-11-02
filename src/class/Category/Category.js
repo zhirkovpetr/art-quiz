@@ -1,11 +1,9 @@
 import Round from "../Round/Round"
 import Home from "../Home/Home"
-
 let arrCategory= [
   'Portrait', 'Landscape', 'Still Life', 'Graphic', 'Antique', 'Avant-Garde', 'Renaissance', 'Surrealism' , 'Kitsch',
   'Minimalism', 'Avangard', 'Industrial'
 ]
-
 class Category {
   constructor(data, categoryType) {
     this.target = document.querySelector('#root');
@@ -40,11 +38,9 @@ class Category {
 				</div>
 				`).join('')}
 		</div>`;
-
     /*<div class="item_total">
                              <div class="tex">score</div>
                      </div>
-
      <div className="info info_results">
          ${localStorage.getItem(`score${this.categoryType}${index}`) ? `
                          <div class="score-container">
@@ -54,23 +50,18 @@ class Category {
      </div>*/
     this.target.innerHTML = this.screen;
     this.target.querySelector('.container').classList.add('animation');
-
     this.cards = this.target.querySelectorAll('.item');
-
     this.cards.forEach((item, index) => {
       if (localStorage.getItem(`${this.categoryType}${index}`) === 'true') {
         item.classList.remove('stop_item');
-        item.classList.add('play_item');
+        item.classList.add('play-item');
       }
     });
 
     this.round_container = this.target.querySelector('.container');
     document.addEventListener('click', this.chooseRound.bind(this));
-
     this.buttons_home = this.target.querySelector('.buttons_home').addEventListener('click', this.goHome);
-
   }
-
   setCovers() {
     let data = this.rounds.flat();
     let covers = [];
@@ -82,7 +73,6 @@ class Category {
     }
     return covers;
   }
-
   chooseRound(event) {
     if (event.target.tagName === 'IMG') {
       let id = event.target.id;
@@ -90,7 +80,6 @@ class Category {
       new Round(this.target, this.rounds, questions, this.categoryType, id);
     }
   }
-
   goHome() {
     return new Home();
   }

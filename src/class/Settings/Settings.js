@@ -1,3 +1,5 @@
+import Home from "../Home/Home";
+
 class Settings {
   constructor() {
     this.target = document.querySelector('#root');
@@ -45,12 +47,9 @@ class Settings {
     this.valumeChecker = document.querySelector('.value_checker');
     this.checkTimer = document.querySelector('#check');
     this.timerChecker = document.querySelector('.progress_timer');
-
-
     if (localStorage.getItem('checkVolume') === 'true') {
       this.checkVolume.checked = true;
     }
-
     if (localStorage.getItem('volumeChecker')) {
       this.valumeChecker.value = localStorage.getItem('volumeChecker');
     }
@@ -66,11 +65,20 @@ class Settings {
     if (!this.checkTimer.checked) {
       this.timerChecker.disabled = true;
     }
+
+    this.button_return = this.target.querySelector('.button_return').addEventListener('click', this.goHome);
+    this.button_save = this.target.querySelector('.button_save').addEventListener('click', this.goHome)
+
+
     this.checkVolume.addEventListener('input', this.turnNotifyValue.bind(this));
     this.valumeChecker.addEventListener('input', this.changeVolume.bind(this));
     this.checkTimer.addEventListener('input', this.turnNotifyTimer.bind(this));
     this.timerChecker.addEventListener('input', this.changeTimer.bind(this));
   }
+  goHome() {
+    return new Home();
+  }
+
   turnNotifyValue() {
     if (this.valumeChecker.disabled) {
       this.valumeChecker.disabled = false;

@@ -1,7 +1,7 @@
-import shuffleArray from '../../settings/shuffleArray';
-import Modal from '../Modal/Modal';
-import Home from '../Home/Home';
-import Category from '../Category/Category';
+import shuffleArray from "../../settings/shuffleArray";
+import Modal from "../Modal/Modal";
+import Home from "../Home/Home";
+import Category from "../Category/Category";
 
 class Question {
   constructor(target, categoryType, categoryData, roundData, questionNum, score, roundId) {
@@ -15,45 +15,45 @@ class Question {
     this.rightAnswer = this.categoryType === 'arts' ? Number(roundData[this.questionNum].imageNum) : roundData[this.questionNum].author;
     this.allVariants = this.setVariants(this.categoryType);
     this.screen = this.categoryType === 'arts' ?
-      `<div class='container container_question'>
-             <div class='buttons_wrapper buttons_wrapper_category buttons_wrapper_question'>
-                    <button class='buttons buttons_home buttons_home_width'>
-                         <img src='./data/svg/home.svg' alt='home_btn'>
+      `<div class="container container_question">
+             <div class="buttons_wrapper buttons_wrapper_category buttons_wrapper_question">
+                    <button class="buttons buttons_home buttons_home_width">
+                         <img src="./data/svg/home.svg" alt="home_btn">
                          <span>home</span>
                     </button>
-                    <h2 class='textQuest text_artists'>'${this.roundData[this.questionNum].question}'</h2>
-                    ${localStorage.getItem('checkTimer') === 'true' ? `<p class='question_timer'>${localStorage.getItem('timerChecker')}</p>` : ''}
-                    <button class='buttons buttons_category buttons_category_width'>
-                          <img src='./data/svg/category.svg' alt='home_btn'>
+                     <h2 class="textQuest text_artists">"${this.roundData[this.questionNum].question}"</h2>
+                    ${localStorage.getItem('checkTimer') === 'true' ? `<p class="question_timer">${localStorage.getItem('timerChecker')}</p>` : ''}
+                    <button class="buttons buttons_category buttons_category_width">
+                          <img src="./data/svg/category.svg" alt="home_btn">
                           <span>categories</span>
                     </button>
              </div>
-             <div class='pictures_picture variants_container'>
+              <div class="pictures_picture variants_container">
              ${this.allVariants.map((variant, index) => `
-		      <div class='pictures_picture_item' id='${index}'>
-                    <img src='.data/img/${variant}.jpg' id='a${index}' alt='picture-question'/>
+		        <div class="pictures_picture_item" id="${index}">
+                    <img src=".data/img/${variant}.jpg" id="a${index}" alt="picture-question"/>
               </div>`).join('')}
              </div>
         </div>`
-      : `<div class='container container_question'>
-             <div class='buttons_wrapper buttons_wrapper_category buttons_wrapper_question'>
-                   <button class='buttons buttons_home buttons_home_width'>
-                          <img src='./data/svg/home.svg' alt='home_btn'>
+      : `<div class="container container_question">
+             <div class="buttons_wrapper buttons_wrapper_category buttons_wrapper_question">
+                   <button class="buttons buttons_home buttons_home_width">
+                          <img src="./data/svg/home.svg" alt="home_btn">
                           <span>home</span>
                    </button>
-                   <h2 class='textQuest text_artists'>'${this.roundData[this.questionNum].question}'</h2>
-                   ${localStorage.getItem('checkTimer') === 'true' ? `<p class='question_timer'>${localStorage.getItem('timerChecker')}</p>` : ''}
-                   <button class='buttons buttons_category buttons_category_width'>
-                           <img src='./data/svg/category.svg' alt='home_btn'>
+                   <h2 class="textQuest text_artists">"${this.roundData[this.questionNum].question}"</h2>
+                   ${localStorage.getItem('checkTimer') === 'true' ? `<p class="question_timer">${localStorage.getItem('timerChecker')}</p>` : ''}
+                   <button class="buttons buttons_category buttons_category_width">
+                           <img src="./data/svg/category.svg" alt="home_btn">
                            <span>categories</span>
                    </button>
              </div>
-             <div class='artists_picture'>
-                  <img class='question-image' src='./data/img/${this.roundData[this.questionNum].imageNum}.jpg' alt="question-image"/>
+             <div class="artists_picture">
+                  <img class="question-image" src="./data/img/${this.roundData[this.questionNum].imageNum}.jpg" alt="question-image"/>
              </div>
-             <div class='answer'>
-             <ul class='answers_wrapper variants_container'>${this.allVariants.map((variant, index) => `
-		            <li class='answers_answer' id='a${index}'>${variant}</li>`).join('')}
+             <div class="answer">
+             <ul class="answers_wrapper variants_container">${this.allVariants.map((variant, index) => `
+		            <li class="answers_answer" id="a${index}">${variant}</li>`).join('')}
 		     </ul>             
                </div>
                </div>`;
@@ -71,9 +71,11 @@ class Question {
     if (this.timer) {
       this.tiktac(this.timer.textContent)
     }
-    this.buttons_home = this.target.querySelector('.buttons_home').addEventListener('click', this.goHome);
-    this.buttons_category = this.target.querySelector('.buttons_category').addEventListener('click', this.goCategory);
+
+    this.buttons_home_width = this.target.querySelector('.buttons_home_width').addEventListener('click', this.goHome);
+    this.buttons_category = this.target.querySelector('.buttons_category_width').addEventListener('click', this.goCategory)
   }
+
   goHome() {
     return new Home();
   }
