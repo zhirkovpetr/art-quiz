@@ -56,9 +56,6 @@ module.exports = ({ develop }) => ({
         ],
 
     },
-    performance: {
-        hints: false
-    },
     plugins: [
         new HtmlWebPackPlugin({
             template: "./src/index.html",
@@ -92,4 +89,3 @@ module.exports = ({ develop }) => ({
     ],
     ...devServer(develop),
 });
-
