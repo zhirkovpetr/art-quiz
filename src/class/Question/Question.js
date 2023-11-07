@@ -1,8 +1,7 @@
-import shuffleArray from "../../settings/shuffleArray";
-import Modal from "../Modal/Modal";
-import Home from "../Home/Home";
 import Category from "../Category/Category";
+
 class Question {
+  picturesAnswer= [];
   constructor(target, categoryType, categoryData, roundData, questionNum, score, roundId) {
     this.target = target;
     this.categoryType = categoryType;
@@ -58,7 +57,6 @@ class Question {
                </div>`;
     this.target.innerHTML = this.screen;
     this.target.querySelector('.container_question').classList.add('animation');
-
     this.timer = this.target.querySelector('.question_timer');
     if (this.timer) {
       this.timer.classList.add('shake');
@@ -73,7 +71,7 @@ class Question {
     }
 
     this.target.querySelector('.buttons_home_width').addEventListener('click', this.goHome);
-    this.target.querySelector('.buttons_category_width').addEventListener('click', this.goCategory)
+    this.target.querySelector('.buttons_category_width').addEventListener('click', this.goCategory.bind(this))
   }
 
   goHome() {
@@ -81,7 +79,7 @@ class Question {
   }
 
   goCategory() {
-    new Category(this.categoryData, this.categoryType);
+    return new Category(this.categoryData, this.categoryType);
   }
 
   chooseAnswer(event) {
@@ -90,16 +88,15 @@ class Question {
     let isRight = id === this.allVariants.indexOf(this.rightAnswer);
     let nextQuestionNum = this.questionNum;
     let score = this.score;
-
     if (isRight) {
       score += 1;
     }
     nextQuestionNum += 1;
-
     if (this.questionNum < 10) {
       new Modal(this.target, this.categoryType, this.categoryData, this.roundData, this.roundData[this.questionNum], nextQuestionNum, isRight, score, this.roundId);
     }
-  }
+}
+
   tiktac(num) {
     let prop = Number(num);
     console.log(prop);
