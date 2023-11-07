@@ -1,19 +1,22 @@
+import shuffleArray from "../../settings/shuffleArray";
+import Modal from "../Modal/Modal";
+import Home from "../Home/Home";
 import Category from "../Category/Category";
 
 class Question {
-  picturesAnswer= [];
-  constructor(target, categoryType, categoryData, roundData, questionNum, score, roundId) {
-    this.target = target;
-    this.categoryType = categoryType;
-    this.categoryData = categoryData;
-    this.roundData = roundData;
-    this.questionNum = questionNum;
-    this.score = score;
-    this.roundId = roundId;
-    this.rightAnswer = this.categoryType === 'arts' ? Number(roundData[this.questionNum].imageNum) : roundData[this.questionNum].author;
-    this.allVariants = this.setVariants(this.categoryType);
-    this.screen = this.categoryType === 'arts' ?
-      `<div class="container container_question">
+    picturesAnswer= [];
+    constructor(target, categoryType, categoryData, roundData, questionNum, score, roundId) {
+        this.target = target;
+        this.categoryType = categoryType;
+        this.categoryData = categoryData;
+        this.roundData = roundData;
+        this.questionNum = questionNum;
+        this.score = score;
+        this.roundId = roundId;
+        this.rightAnswer = this.categoryType === 'arts' ? Number(roundData[this.questionNum].imageNum) : roundData[this.questionNum].author;
+        this.allVariants = this.setVariants(this.categoryType);
+        this.screen = this.categoryType === 'arts' ?
+            `<div class="container container_question">
              <div class="buttons_wrapper buttons_wrapper_category buttons_wrapper_question">
                     <button class="buttons buttons_home buttons_home_width">
                          <img src="./data/svg/home.svg" alt="home_btn">
@@ -33,7 +36,7 @@ class Question {
               </div>`).join('')}
              </div>
         </div>`
-      : `<div class="container container_question">
+            : `<div class="container container_question">
              <div class="buttons_wrapper buttons_wrapper_category buttons_wrapper_question">
                    <button class="buttons buttons_home buttons_home_width">
                           <img src="./data/svg/home.svg" alt="home_btn">
@@ -55,85 +58,101 @@ class Question {
 		     </ul>             
                </div>
                </div>`;
-    this.target.innerHTML = this.screen;
-    this.target.querySelector('.container_question').classList.add('animation');
-    this.timer = this.target.querySelector('.question_timer');
-    if (this.timer) {
-      this.timer.classList.add('shake');
+
+        this.target.innerHTML = this.screen;
+        this.target.querySelector('.container_question').classList.add('animation');
+
+        this.timer = this.target.querySelector('.question_timer');
+        if (this.timer) {
+            this.timer.classList.add('shake');
+        }
+        this.variants_container = this.target.querySelector('.variants_container');
+        this.variants_container.addEventListener('click', this.chooseAnswer.bind(this));
+        this.headerIteration;
+        this.timerGlobal;
+        clearTimeout(this.timerGlobal);
+        if (this.timer) {
+            this.tiktac(this.timer.textContent)
+        }
+
+      this.target.querySelector('.buttons_home_width').addEventListener('click', this.goHome);
+      this.target.querySelector('.buttons_category_width').addEventListener('click', this.goCategory.bind(this))
     }
-    this.variants_container = this.target.querySelector('.variants_container');
-    this.variants_container.addEventListener('click', this.chooseAnswer.bind(this));
-    this.headerIteration;
-    this.timerGlobal;
-    clearTimeout(this.timerGlobal);
-    if (this.timer) {
-      this.tiktac(this.timer.textContent)
+
+    goHome() {
+        return new Home();
     }
 
-    this.target.querySelector('.buttons_home_width').addEventListener('click', this.goHome);
-    this.target.querySelector('.buttons_category_width').addEventListener('click', this.goCategory.bind(this))
-  }
-
-  goHome() {
-    return new Home();
-  }
-
-  goCategory() {
-    return new Category(this.categoryData, this.categoryType);
-  }
-
-  chooseAnswer(event) {
-    clearTimeout(this.timerGlobal);
-    let id = Number(event.target.id.charAt(1));
-    let isRight = id === this.allVariants.indexOf(this.rightAnswer);
-    let nextQuestionNum = this.questionNum;
-    let score = this.score;
-    if (isRight) {
-      score += 1;
+    goCategory() {
+        return new Category(this.categoryData, this.categoryType);
     }
-    nextQuestionNum += 1;
-    if (this.questionNum < 10) {
-      new Modal(this.target, this.categoryType, this.categoryData, this.roundData, this.roundData[this.questionNum], nextQuestionNum, isRight, score, this.roundId);
+
+    chooseAnswer(event) {
+        clearTimeout(this.timerGlobal);
+
+        let id = Number(event.target.id.charAt(1));
+        let isRight = id === this.allVariants.indexOf(this.rightAnswer);
+        let nextQuestionNum = this.questionNum;
+        let score = this.score;
+
+        if (isRight) {
+            score += 1;
+        }
+        nextQuestionNum += 1;
+
+        if (this.questionNum < 10) {
+            new Modal(this.target, this.categoryType, this.categoryData, this.roundData, this.roundData[this.questionNum], nextQuestionNum, isRight, score, this.roundId);
+        }
+    }
+
+    tiktac(num) {
+        let prop = Number(num);
+        console.log(prop);
+        this.timer.innerHTML = prop;
+
+        if (prop >= 0) {
+            prop -= 1;
+        }
+
+        let nextQuestionNum = this.questionNum;
+
+        let timerId = setTimeout(this.tiktac.bind(this, [prop]), 1000);
+
+        this.timerGlobal = timerId;
+
+        if (prop === -1) {
+            clearTimeout(timerId);
+            nextQuestionNum += 1;
+            new Modal(this.target, this.categoryType, this.categoryData, this.roundData, this.roundData[this.questionNum], nextQuestionNum, false, this.score);
+
+        }
+
+        if (prop >= 0) {
+            timerId;
+        }
+
+    }
+
+    setVariants(type) {
+        let variants = [this.rightAnswer];
+
+        if (type === 'arts') {
+            for (let i = 0; variants.length < 4; i++) {
+                let questionNum = Math.round(Math.random() * 120);
+                if (!variants.includes(questionNum)) {
+                    variants.push(questionNum);
+                }
+            }
+        } else {
+            for (let i = 0; variants.length < 4; i++) {
+                let questionNum = Math.round(Math.random() * 120);
+                if (!variants.includes(this.categoryData.flat()[questionNum].author)) {
+                    variants.push(this.categoryData.flat()[questionNum].author);
+                }
+            }
+        }
+        return shuffleArray(variants);
     }
 }
 
-  tiktac(num) {
-    let prop = Number(num);
-    console.log(prop);
-    this.timer.innerHTML = prop;
-    if (prop >= 0) {
-      prop -= 1;
-    }
-    let nextQuestionNum = this.questionNum;
-    let timerId = setTimeout(this.tiktac.bind(this, [prop]), 1000);
-    this.timerGlobal = timerId;
-    if (prop === -1) {
-      clearTimeout(timerId);
-      nextQuestionNum += 1;
-      new Modal(this.target, this.categoryType, this.categoryData, this.roundData, this.roundData[this.questionNum], nextQuestionNum, false, this.score);
-    }
-    if (prop >= 0) {
-      timerId;
-    }
-  }
-  setVariants(type) {
-    let variants = [this.rightAnswer];
-    if (type === 'arts') {
-      for (let i = 0; variants.length < 4; i++) {
-        let questionNum = Math.round(Math.random() * 120);
-        if (!variants.includes(questionNum)) {
-          variants.push(questionNum);
-        }
-      }
-    } else {
-      for (let i = 0; variants.length < 4; i++) {
-        let questionNum = Math.round(Math.random() * 120);
-        if (!variants.includes(this.categoryData.flat()[questionNum].author)) {
-          variants.push(this.categoryData.flat()[questionNum].author);
-        }
-      }
-    }
-    return shuffleArray(variants);
-  }
-}
 export default Question

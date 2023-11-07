@@ -1,8 +1,9 @@
 import Home from "../Home/Home";
+
 class Settings {
-  constructor() {
-    this.target = document.querySelector('#root');
-    this.screen = `
+    constructor() {
+        this.target = document.querySelector('#root');
+        this.screen = `
         <div class='container'>
     <div class='logo logoSettings'></div>
     <h2 class='textSetts settingsMenu_text text_settings'>Settings</h2>
@@ -40,76 +41,95 @@ class Settings {
         </div>
 </div>
         `;
-    this.target.innerHTML = this.screen;
-    this.target.querySelector('.container').classList.add('animation');
-    this.checkVolume = document.querySelector('.check_volume');
-    this.valumeChecker = document.querySelector('.value_checker');
-    this.checkTimer = document.querySelector('#check');
-    this.timerChecker = document.querySelector('.progress_timer');
-    if (localStorage.getItem('checkVolume') === 'true') {
-      this.checkVolume.checked = true;
-    }
-    if (localStorage.getItem('volumeChecker')) {
-      this.valumeChecker.value = localStorage.getItem('volumeChecker');
-    }
-    if (!this.checkVolume.checked) {
-      this.valumeChecker.disabled = true;
-    }
-    if (localStorage.getItem('checkTimer') === 'true') {
-      this.checkTimer.checked = true;
-    }
-    if (localStorage.getItem('timerChecker')) {
-      this.timerChecker.value = localStorage.getItem('timerChecker');
-    }
-    if (!this.checkTimer.checked) {
-      this.timerChecker.disabled = true;
-    }
+        this.target.innerHTML = this.screen;
 
-    this.target.querySelector('.button_return').addEventListener('click', this.goHome);
-    this.target.querySelector('.button_save').addEventListener('click', this.goHome)
+        this.target.querySelector('.container').classList.add('animation');
+
+        this.checkVolume = document.querySelector('.check_volume');
+        this.valumeChecker = document.querySelector('.value_checker');
+        this.checkTimer = document.querySelector('#check');
+        this.timerChecker = document.querySelector('.progress_timer');
 
 
-    this.checkVolume.addEventListener('input', this.turnNotifyValue.bind(this));
-    this.valumeChecker.addEventListener('input', this.changeVolume.bind(this));
-    this.checkTimer.addEventListener('input', this.turnNotifyTimer.bind(this));
-    this.timerChecker.addEventListener('input', this.changeTimer.bind(this));
-  }
-  goHome() {
-    return new Home();
-  }
-  turnNotifyValue() {
-    if (this.valumeChecker.disabled) {
-      this.valumeChecker.disabled = false;
-    } else if (!this.valumeChecker.disabled) {
-      this.valumeChecker.disabled = true;
+        if (localStorage.getItem('checkVolume') === 'true') {
+            this.checkVolume.checked = true;
+        }
+
+        if (localStorage.getItem('volumeChecker')) {
+            this.valumeChecker.value = localStorage.getItem('volumeChecker');
+        }
+
+        if (!this.checkVolume.checked) {
+            this.valumeChecker.disabled = true;
+        }
+
+        if (localStorage.getItem('checkTimer') === 'true') {
+            this.checkTimer.checked = true;
+        }
+
+        if (localStorage.getItem('timerChecker')) {
+            this.timerChecker.value = localStorage.getItem('timerChecker');
+        }
+
+        if (!this.checkTimer.checked) {
+            this.timerChecker.disabled = true;
+        }
+
+       this.target.querySelector('.button_return').addEventListener('click', this.goHome);
+        this.target.querySelector('.button_save').addEventListener('click', this.goHome)
+
+
+        this.checkVolume.addEventListener('input', this.turnNotifyValue.bind(this));
+        this.valumeChecker.addEventListener('input', this.changeVolume.bind(this));
+        this.checkTimer.addEventListener('input', this.turnNotifyTimer.bind(this));
+        this.timerChecker.addEventListener('input', this.changeTimer.bind(this));
     }
-    if (!this.checkVolume.checked) {
-      localStorage.setItem('volumeChecker', 0);
+    goHome() {
+        return new Home();
     }
-    localStorage.setItem('checkVolume', this.checkVolume.checked);
-  }
-  changeVolume() {
-    if (this.checkVolume.checked) {
-      localStorage.setItem('volumeChecker', this.valumeChecker.value);
-      this.valumeChecker.setAttribute('volumeChecker', localStorage.getItem('volumeChecker'));
+
+    turnNotifyValue() {
+        if (this.valumeChecker.disabled) {
+            this.valumeChecker.disabled = false;
+        } else if (!this.valumeChecker.disabled) {
+            this.valumeChecker.disabled = true;
+        }
+
+        if (!this.checkVolume.checked) {
+            localStorage.setItem('volumeChecker', 0);
+        }
+
+        localStorage.setItem('checkVolume', this.checkVolume.checked);
     }
-  }
-  turnNotifyTimer() {
-    if (this.timerChecker.disabled) {
-      this.timerChecker.disabled = false;
-    } else if (!this.timerChecker.disabled) {
-      this.timerChecker.disabled = true;
+
+    changeVolume() {
+        if (this.checkVolume.checked) {
+            localStorage.setItem('volumeChecker', this.valumeChecker.value);
+            this.valumeChecker.setAttribute('volumeChecker', localStorage.getItem('volumeChecker'));
+        }
     }
-    if (!this.checkTimer.checked) {
-      localStorage.setItem('timerChecker', 0);
+
+    turnNotifyTimer() {
+        if (this.timerChecker.disabled) {
+            this.timerChecker.disabled = false;
+        } else if (!this.timerChecker.disabled) {
+            this.timerChecker.disabled = true;
+        }
+
+        if (!this.checkTimer.checked) {
+            localStorage.setItem('timerChecker', 0);
+        }
+
+        localStorage.setItem('checkTimer', this.checkTimer.checked);
     }
-    localStorage.setItem('checkTimer', this.checkTimer.checked);
-  }
-  changeTimer() {
-    if (this.checkTimer.checked) {
-      localStorage.setItem('timerChecker', this.timerChecker.value);
-      this.timerChecker.setAttribute('timerChecker', localStorage.getItem('timerChecker'));
+
+    changeTimer() {
+        if (this.checkTimer.checked) {
+            localStorage.setItem('timerChecker', this.timerChecker.value);
+            this.timerChecker.setAttribute('timerChecker', localStorage.getItem('timerChecker'));
+        }
     }
-  }
+
 }
+
 export default Settings;

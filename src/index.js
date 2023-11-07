@@ -6,7 +6,7 @@ const root = document.querySelector('#root');
 new Home(root);
 
 function requireAll(r) {
-  r.keys().forEach(r);
+    r.keys().forEach(r);
 }
 
 requireAll(require.context('./data/img/', true, /\.jpg$/));
